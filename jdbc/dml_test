@@ -1,0 +1,17 @@
+--CRUD : 데이터의 생성,읽기,갱신,삭제를 가리키는 약자.
+-- 프로그램이 가져야할 사용자 인터페이스(메뉴)의 기본 기능.
+
+--단순 조회(READ)
+select * from TBL_STUDENT;
+
+--INSERT 테스트 (CREATE)
+insert into TBL_STUDENT values ('2022012','김땡땡',16,'경기도');
+
+--update 테스트
+update TBL_STUDENT
+set age = 17, address = '종로구'
+where stuno = '2022012';
+
+--delete 테스트
+delete from TBL_STUDENT
+where stuno = '2022012';
