@@ -17,6 +17,8 @@ select * from TBL_BUY;
 select * from TBL_BUY; where customid='mina012';
 --기존에 연습했던 테이블을 변경하지 않도록 새롭게 복사해서 jdbc 구현합니다.
 select * from j_custom;
+select * from j_product;
+select * from j_BUY;
 
 create table j_custom
 as
@@ -30,6 +32,7 @@ create table j_buy
 as
 select * from tbl_buy;
 
+drop table j_buy;
 --pk,fk는 필요하면 제약조건을 추가 합니다.
 --custom_id, pcode, buy_seq 컬럼으로 pk 설정하기
 -- tbl_buy 테이블에는 외래키도 2개가 있습니다.(j_buy 외래키 설정 제외하고 하겠습니다.)
@@ -45,6 +48,30 @@ insert into j_product values ('APP11','A1','얼음골사과 1박스',32500);
 insert into j_product values ('APP99','A1','씻은사과 10개',25000);
 
 -- j_buy 테이블에 사용할 시퀀스
-select * from jbuy;
+select * from j_buy;
 create sequence jbuy_seq start with 1008;
 select jbuy_seq.nextval from dual;
+
+select * from j_buy;
+alter table j_buy add constraint q_check check (quantity betweeb 1 and 30);
+-- check 제약조건 오류
+insert into j_buy values (jbuy_seq.nextval,'twice','APP99',33,sysdate);
+
+-- 6. 마이페이지 구매내역
+
+select buy_date, p.pcode, pname, quantity,price,quantity* price total from j_buy b
+join j_product p 
+on p.pcode = b.pcode
+and b.customid= 'twice'
+order by buy_date desc;
+
+--자주 사용될 join 결과는 view로 만들기. view 는 create or replace 로 생성후 에 수정까지 가능.
+create or replace view mypage_buy
+as 
+select buy_date, customid, p.pcode, pname, quantity,price,quantity* price total from j_buy b
+join j_product p 
+on p.pcode = b.pcode
+order by buy_date desc;
+
+select * from mypage_buy where customid = 'twice';
+select sum(total) from mypage_buy where customid='twice';

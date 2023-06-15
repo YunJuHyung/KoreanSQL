@@ -1,24 +1,21 @@
 package koreait.jdbc.day04;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
-
-@Getter
-@Setter
-@ToString
 @Builder
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
-public class JCustomer {
-//DTO : JBuy,JProduct
+@ToString
+//DTO : JBuy , JProduct
+public class JCustomer {	
 	private String custom_id;
 	private String name;
 	private String email;
 	private int age;
-	private String reg_date;
-	
+	private Date regDate;
+
 }
