@@ -31,17 +31,18 @@ public class JProductDao {
 			conn.close();
 			return list;
 		}
-	//3. 상품명으로 검색하기 (유사검색) 시험나옴
+		 //시험나옴
+	//3. 상품명으로 검색하기 (유사검색 -> **`검색어가 포함된 상품명`**을 목록 조회하기)
 	public List<JProduct> searchpname(String pname)throws SQLException {
 		Connection connection = OracleUtility.getConnection();
 		String sql = "select * from TBL_product where pname like '%' || ? || '%'";
-		//스캐너로 입력 받아야하긴 할듯?
+		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, pname);
 		
 		List<JProduct> list = new ArrayList<>();
 		ResultSet rs = ps.executeQuery();
-		while(rs.next()) {
+		while(rs.next()) {//리스트에 JProduct의 생성자로 만들어진 sql필드값을 추가한다.
 			list.add(new JProduct(rs.getString(1),
 					rs.getString(2),
 					rs.getString(3),

@@ -88,7 +88,9 @@ public class MyMallMain {
 				System.out.println("\n" + "현재까지 " + customer.getName() + " 회원님의 구매 내역 입니다.");
 				List<MyPageBuy> buys;
 				buys = mdao.mypageBuy(customid);
-				System.out.println("구매하신 목록은 " + buys + "입니다.");
+//				System.out.println(String.fromat("%15s %20s %5d %10d %16d",
+//						mdao.);
+				System.out.println("구매한 품목" + buys + "입니다");
 				long total = mdao.myMoney(customid);
 				System.out.println("총 구매 금액은 " + total + "입니다");
 			} catch (SQLException e) {

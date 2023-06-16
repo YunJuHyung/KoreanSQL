@@ -35,7 +35,7 @@ public class MyPageBuyDao {
 	//얼마치를 샀는지 조회하는 메소드
 	public long myMoney (String customid) throws SQLException{
 		
-		Connection connection = OracleUtility.getConnection();
+		Connection connection = OracleUtility.getConnection(); 
 		String sql = "select sum(total) from mypage_buy where customid=? ";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, customid);

@@ -1,22 +1,25 @@
-package koreait.jdbc.day04;
+package DBPKG;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import koreait.jdbc.day02.OracleUtility;
+import koreait.jdbc.day04.JBuy;
+import koreait.jdbc.day04.JCustomer;
 
-public class JBuyDao {		//구매와 관련된 CRUD실행 SQL. DAO:JCustomerDao, JProducDao
-	//메소드 이름은 insert,update,delete,select,selectByPname 등등으로 이름을 작성하세요
-	
-	//트랜잭션을 처리하는 예시
-	//try catch 를 직접하세요.throws 아닙니다.
-	public int insertMany(List<JBuy> carts) {		
-		Connection connection = OracleUtility.getConnection();
-	//5. 상품 구매(결제)하기 - 장바구니의 데이터를 `구매` 테이블에 입력하기 (여러개 insert)
-		String sql = "insert into j_buy \n"
-				+ " values(jbuy_seq.nextval,?,?,?,sysdate)";
+public class LoginDao {
+
+	public int LoginDto createId (List<LoginDto> custno) throws SQLException{		
+		Connection connection = HRD_0616.getConnection();
+		String sql = "insert into member_tbl_02 \n"
+				+ "(jbuy_seq.nextval,?,?,?,sysdate,?,?)";		//pk조회 : 결과 행 0 또는 1개
+		
+		PreparedStatement ps = connection.prepareStatement(sql); //********06-16 여기서 부터 수정해야됨
+		ResultSet rs = ps.executeQuery();
+		LoginDto result = null;
 		int count = 0;
 		PreparedStatement ps = null;
 		try {
@@ -37,5 +40,9 @@ public class JBuyDao {		//구매와 관련된 CRUD실행 SQL. DAO:JCustomerDao, 
 			}
 		}
 		return count;
-	}	
+		}
+		ps.close();
+		connection.close();
+		return result;
+	}
 }

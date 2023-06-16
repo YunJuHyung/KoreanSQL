@@ -66,12 +66,15 @@ and b.customid= 'twice'
 order by buy_date desc;
 
 --자주 사용될 join 결과는 view로 만들기. view 는 create or replace 로 생성후 에 수정까지 가능.
+--view 는 물리적인 테이블이 아닙니다. 물리적 테이블을 이용해서 만들어진 가상의 테이블
 create or replace view mypage_buy
 as 
-select buy_date, customid, p.pcode, pname, quantity,price,quantity* price total from j_buy b
+select buy_date, customid, p.pcode, pname, quantity,price,
+quantity* price total from j_buy b
 join j_product p 
 on p.pcode = b.pcode
 order by buy_date desc;
 
+select * from mypage_buy;
 select * from mypage_buy where customid = 'twice';
 select sum(total) from mypage_buy where customid='twice';
