@@ -2,6 +2,7 @@ package koreait.jdbc.day04;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -37,5 +38,28 @@ public class JBuyDao {		//구매와 관련된 CRUD실행 SQL. DAO:JCustomerDao, 
 			}
 		}
 		return count;
+	}
+
+	public int insert(JBuy buy) {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	public JBuy selectOne(int buy_seq) throws SQLException {
+		Connection connection = OracleUtility.getConnection();
+		String sql = "select * from j_buy where buy_seq = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setInt(1, buy_seq);
+		ResultSet rs = ps.executeQuery();
+		JBuy buy = null;
+		if(rs.next()) {
+			buy = new JBuy(rs.getInt(1),
+					rs.getString(2),
+					rs.getString(3),
+					rs.getInt(4),
+					rs.getString(5)
+					);
+		}
+		return buy;
 	}	
 }

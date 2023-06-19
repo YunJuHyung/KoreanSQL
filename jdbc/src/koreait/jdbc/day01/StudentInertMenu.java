@@ -1,4 +1,4 @@
-package koreait.jdbc;
+package koreait.jdbc.day01;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

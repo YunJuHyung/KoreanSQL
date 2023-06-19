@@ -75,6 +75,15 @@ join j_product p
 on p.pcode = b.pcode
 order by buy_date desc;
 
-select * from mypage_buy;
+select * from mypage_buy;03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4
 select * from mypage_buy where customid = 'twice';
 select sum(total) from mypage_buy where customid='twice';
+
+--6월 19일 로그인 구현하기 위한 패스워드 컬럼 추가를 합니ㅏㄷ.
+--패스워드 컬럼은 해시값 64문자를 저장합니다aletr table j_cust
+alter table j_custom add password char(64);
+
+--twice만 패스워드 값 저장하
+update j_custom set
+password = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'
+where custom_id = 'twice';

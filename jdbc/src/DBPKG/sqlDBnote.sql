@@ -16,6 +16,10 @@ insert into member_tbl_02 values(100004, '최사랑', '010-1111-5555', '울릉�
 insert into member_tbl_02 values(100005, '진평화', '010-1111-6666', '제주도 제주시 외나무골',to_date('2015-12-25', 'yyyy-mm-dd') , 'B', '60');
 insert into member_tbl_02 values(100006, '차공단', '010-1111-7777', '제주도 제주시 감나무골',to_date('2015-12-11', 'yyyy-mm-dd') , 'C', '60' );
 
+select * from member_tbl_02;
+create sequence member_tbl_02_seq start with 1007;
+select member_tbl_02_seq.nextval from dual;
+
 create table money_tbl_02(
 	custno number(6)not null,
 	salenol  number(8)not null,
@@ -41,7 +45,59 @@ insert into money_tbl_02 values(100004, 20160007, 500, 2, 1000, 'A001', to_date(
 insert into money_tbl_02 values(100004, 20160008, 300, 1, 300, 'A005', to_date('2016-01-04', 'yyyy-mm-dd'));
 insert into money_tbl_02 values(100004, 20160009, 600, 1, 600, 'A006', to_date('2016-01-04', 'yyyy-mm-dd'));
 insert into money_tbl_02 values(100004, 20160010, 3000, 1, 3000, 'A007', to_date('2016-01-06', 'yyyy-mm-dd'));
-	
+
+
+-- step 1 회원별 매출합계
+select custno, sum(price) from money_tbl_02 group by custno;
+
+-- step 2 정렬 기준 확인하기
+select custno, sum(price) from money_tbl_02 group by custno order by sum(price) desc;
+
+-- step 3 custno 컬럼으로 조인하여 고객 정보 전체 가져오기
+select * from member_tbl_02 met,
+   (select custno, sum(price) asum from money_tbl_02 mot 
+   group by custno
+   order by asum desc) sale
+where met.custno = sale.custno;
+-- 또는
+select * from member_tbl_02 met join
+   (select custno, sum(price) asum from money_tbl_02 mot 
+   group by custno
+   order by asum desc) sale
+on met.custno = sale.custno;
+
+-- step 4 필요한 컬럼만 가져오기
+select met.custno, custname,
+   decode(met.grade, 'A', 'VIP', 'B', '일반', 'C', '직원') as grade,
+   asum
+   from member_tbl_02 met join
+   (select custno, sum(price) asum from money_tbl_02 mot 
+   group by custno
+   order by asum desc) sale
+   on met.custno = sale.custno ORDER BY asum desc;
+-- 또는
+select met.custno, custname,
+   decode(met.grade, 'A', 'VIP', 'B', '일반', 'C', '직원') as grade,
+   sale.asum
+   from member_tbl_02 met,
+   (select custno, sum(price) asum from money_tbl_02 mot 
+   group by custno
+   order by asum desc) sale
+   where met.custno = sale.custno 
+   ORDER BY total desc;
+
+++ decode(grade, 'A', 'VIP', 'B', '일반', 'C', '직원');
+
+-- 외부조인 : 매출이 없는 회원도 포함한다.
+select met.custno, custname,
+   decode(met.grade, 'A', 'VIP', 'B', '일반', 'C', '직원') as grade,
+   nvl(sale.asum,0) total
+   from member_tbl_02 met LEFT OUTER join
+   (select custno, sum(price) asum from money_tbl_02 mot 
+   group by custno
+   order by asum desc) sale
+   on met.custno = sale.custno ORDER BY total DESC ,custno;
+   
 	
 	
 	
