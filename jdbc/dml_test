@@ -12,6 +12,6 @@ update TBL_STUDENT
 set age = 17, address = '종로구'
 where stuno = '2022012';
 
---delete 테스트
+- ppt-delete 테스트
 delete from TBL_STUDENT
 where stuno = '2022012';

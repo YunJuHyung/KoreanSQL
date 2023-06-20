@@ -1,9 +1,6 @@
 package koreait.jdbc.day06;
 
 import java.nio.charset.StandardCharsets;
-
-import org.junit.jupiter.api.DisplayNameGenerator.Standard;
-
 import com.google.common.hash.Hashing;
 
 public class HashFunctionTest {
