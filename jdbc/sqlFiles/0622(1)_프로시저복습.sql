@@ -5,6 +5,9 @@ SELECT * FROM TBL_BUY tb ;
 
 SELECT * FROM p_buy;
 
+--웹애플리케이션(인터넷 환경) 개발할 때, 사용자가 원하는 기능 요청 하나에 sql을 1개씩만 실행을 합니다.
+--			프로시저를 이용하면 요청 1 : n의 SQL을 실행할수 있다
+--데이터베이스 관점에서 `무결성`(정확성)을 유지할 수 있는 방법.
 --프로시저에서도 트랜잭션을 관리
 
 CREATE OR REPLACE PROCEDURE ICLASS.proc_set_money(
