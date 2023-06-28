@@ -20,7 +20,7 @@ END;
 
 
 SELECT * FROM p_buy;
-
+--원하는 작업을 자동으로. 데이터베이스 테이블 관리를 위한 목적
 CREATE OR REPLACE TRIGGER cancel_buy
 AFTER DELETE ON p_buy		--p_buy 테이블 대상으로 DELETE 실행한 후에 동작한디.
 FOR EACH ROW 	--만족(적용)하는 행이 여러개 일때, :
@@ -45,3 +45,17 @@ SELECT * FROM p_buy;
 
 --트리거 동작시키기
 DELETE FROM p_buy WHERE customid='twice'
+
+
+
+--테이블 관리 목적의 트리거 : 예시로 UPDATE 와 delete 명령을 할 수 없는 시간 정함.
+CREATE OR REPLACE TRIGGER secure_custom
+BEFORE UPDATE OR DELETE ON TBL_CUSTOM		--트리거 동작하는 테이블, SQL과 시점
+BEGIN 
+	IF TO_CHAR(SYSDATE, 'HH24:MI') BETWEEN '12:00' AND '16:00' THEN 
+	raise_application_error(-20000,'지금 오후 12시~16시는 작업할수 없습니다.');
+	--raise_application_error : 오라클의 애플리케이션 오류 발생 함수. 임의 오류값 지정, 메시지 필요.
+	END IF;
+END;
+-- 트리거 동작 테스트
+DELETE FROM TBL_CUSTOM WHERE custom_id = 'momo';
