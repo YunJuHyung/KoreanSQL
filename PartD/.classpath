@@ -7,5 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/lombok.jar"/>
+	<classpathentry kind="lib" path="D:/iclass0419/extlibs/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="D:/iclass0419/extlibs/guava-31.1-jre.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
